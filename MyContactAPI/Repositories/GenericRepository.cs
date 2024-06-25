@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyContactAPI.Data;
 using MyContactAPI.Repositories.Interfaces;
 using System.Collections.Generic;
 
@@ -6,50 +7,48 @@ namespace MyContactAPI.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        //protected EmployeeDBContext _context = null;
-        //The following Variable is going to hold the DbSet Entity
+        protected ApplicationDbContext _context = null;
         protected DbSet<T> table = null;
 
-        public GenericRepository()
+        public GenericRepository(ApplicationDbContext _context)
         {
-            //this._context = new EmployeeDBContext();
-     
-            //table = _context.Set<T>();
+            this._context = _context;
+            table = _context.Set<T>();
         }
-        //public GenericRepository(EmployeeDBContext _context)
-        //{
-        //    this._context = _context;
-        //    table = _context.Set<T>();
-        //}
 
         public void Delete(object id)
         {
-            throw new NotImplementedException();
+            T existing = table.Find(id);
+
+            table.Remove(existing);
         }
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return table.ToList();
         }
 
         public T GetById(object id)
         {
-            throw new NotImplementedException();
+            return table.Find(id);
         }
 
         public void Insert(T model)
         {
-            throw new NotImplementedException();
+            table.Add(model);
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
 
         public void Update(T model)
         {
-            throw new NotImplementedException();
+
+            table.Attach(model);
+
+            _context.Entry(model).State = EntityState.Modified;
         }
     }
 }
