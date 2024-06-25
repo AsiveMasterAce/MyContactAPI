@@ -7,9 +7,6 @@
         {
 
             var group = endpoint.MapGroup("api/contact/");
-            //ToDo 
-            // Add Endpoints
-
 
             return endpoint;
         }
