@@ -7,9 +7,13 @@
         {
 
             var group = endpoint.MapGroup("api/contact/");
-
+            group.MapGet("contacts",FetchContacts);
             return endpoint;
-        }
 
+        }
+        private static async Task FetchContacts()
+        {
+
+        }
     }
 }
